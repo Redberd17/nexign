@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-11-12-create-table-task
+      author: Ekaterina Nefedova
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            tableName: task
+            remarks: Задачи
+            columns:
+             - column:
+                name: id
+                type: BIGSERIAL
+                constraints:
+                  nullable: false
+                  primaryKey: true
+                  primaryKeyName: pk_task
+
+             - column:
+                name: name
+                type: VARCHAR(255)
+                constraints:
+                  nullable: false
+
+             - column:
+                name: duration
+                type: VARCHAR(255)
+                constraints:
+                  nullable: false
+
+             - column:
+                name: status
+                type: VARCHAR(255)
+                constraints:
+                  nullable: false

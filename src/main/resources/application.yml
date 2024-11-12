@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: nexign
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc://localhost:5432/nexign
+    username: postgres
+    password: postgres
+
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-main.yml
+
+logging:
+  level:
+    web: debug
