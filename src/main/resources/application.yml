@@ -10,6 +10,9 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/changelog-main.yml
 
+  messages:
+    basename: i18n/messages
+
 logging:
   level:
     web: debug

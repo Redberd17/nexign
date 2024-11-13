@@ -2,3 +2,6 @@ databaseChangeLog:
   - include:
       file: v1/2024-11-12-create-table-task.yml
       relativeToChangelogFile: true
+  - include:
+      file: v1/2024-11-13-alter-table-task.yml
+      relativeToChangelogFile: true

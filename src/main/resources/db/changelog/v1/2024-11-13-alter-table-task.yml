@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-11-13-alter-table-task
+      author: Ekaterina Nefedova
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            tableName: task
+            columns:
+              - column:
+                  name: create_date
+                  type: TIMESTAMPTZ
+                  defaultValueDate: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: update_date
+                  type: TIMESTAMPTZ
+                  defaultValueDate: now()
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: finish_date
+                  type: TIMESTAMPTZ
+
+        - sql:
+            sql: |
+              CREATE UNIQUE INDEX uniq_name_by_statuses ON task (name)
+              WHERE status = 'NEW' or status = 'IN_PROGRESS';
+

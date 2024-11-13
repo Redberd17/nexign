@@ -8,6 +8,7 @@ import ru.nefedova.nexign.input.model.TaskResponse;
 import ru.nefedova.nexign.mapper.TaskMapper;
 import ru.nefedova.nexign.output.persistance.TaskRepository;
 import ru.nefedova.nexign.output.persistance.model.TaskEntity;
+import ru.nefedova.nexign.util.LocalizationService;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class TaskService {
 
     private final TaskMapper taskMapper;
 
+    private final LocalizationService localizationService;
+
     public List<TaskResponse> getAllTasks() {
         final List<TaskEntity> tasks = taskRepository.findAll();
 
@@ -29,7 +32,9 @@ public class TaskService {
 
     public TaskResponse getTaskById(long id) {
         final TaskEntity task = taskRepository.findById(id)
-                .orElseThrow(() -> new EntryNotFoundException("не найдено"));
+                .orElseThrow(() -> new EntryNotFoundException(
+                        localizationService.getMessage("task.notExistsById", id)
+                ));
 
         return taskMapper.toTaskResponse(task);
     }

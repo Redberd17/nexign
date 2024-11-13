@@ -14,7 +14,7 @@ public class TaskMapper {
         return TaskResponse.builder()
                 .id(task.getId())
                 .name(task.getName())
-                .duration(Duration.parse(task.getDuration()).toSeconds())
+                .duration(task.getDuration())
                 .status(task.getStatus())
                 .build();
     }
@@ -23,7 +23,7 @@ public class TaskMapper {
         final TaskEntity task = new TaskEntity();
 
         task.setName(request.name());
-        task.setDuration(request.duration().toString());
+        task.setDuration(request.duration());
         task.setStatus(request.status());
 
         return task;
