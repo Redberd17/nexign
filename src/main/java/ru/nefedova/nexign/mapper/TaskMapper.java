@@ -5,8 +5,6 @@ import ru.nefedova.nexign.input.model.TaskRequest;
 import ru.nefedova.nexign.input.model.TaskResponse;
 import ru.nefedova.nexign.output.persistance.model.TaskEntity;
 
-import java.time.Duration;
-
 @Component
 public class TaskMapper {
 

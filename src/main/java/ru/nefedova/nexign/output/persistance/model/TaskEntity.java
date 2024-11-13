@@ -40,14 +40,14 @@ public class TaskEntity {
     private TaskStatus status;
 
     @CreatedDate
-    @Column(name = "create_date", nullable = false, updatable = false, columnDefinition = "now()")
+    @Column(name = "create_date", nullable = false, updatable = false)
     private Instant createDate;
 
     @LastModifiedDate
-    @Column(name = "update_date", nullable = false, columnDefinition = "now()")
+    @Column(name = "update_date", nullable = false)
     private Instant updateDate;
 
-    @Column(name = "finish_date", columnDefinition = "now()")
+    @Column(name = "finish_date")
     private Instant finishDate;
 
 }
