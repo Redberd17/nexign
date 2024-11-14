@@ -1,9 +1,56 @@
+version: '3.8'
+
+networks:
+  app-network:
+
 services:
   postgres:
-    image: 'postgres:latest'
+    image: postgres:latest
     environment:
       - 'POSTGRES_DB=nexign'
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'
     ports:
       - '5433:5432'
+    networks:
+      - app-network
+
+  app:
+    image: nexign:latest
+    build:
+      context: .
+    ports:
+      - '8080-8082:8080'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/nexign
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - postgres
+      - kafka
+    deploy:
+      replicas: 3
+    networks:
+      - app-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - app-network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+    depends_on:
+      - zookeeper
+    networks:
+      - app-network
