@@ -1,8 +1,10 @@
 package ru.nefedova.nexign.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.nefedova.nexign.input.model.TaskRequest;
-import ru.nefedova.nexign.input.model.TaskResponse;
+import ru.nefedova.nexign.common.enumeration.TaskStatus;
+import ru.nefedova.nexign.input.kafka.model.TaskModel;
+import ru.nefedova.nexign.input.web.model.TaskRequest;
+import ru.nefedova.nexign.input.web.model.TaskResponse;
 import ru.nefedova.nexign.output.persistance.model.TaskEntity;
 
 @Component
@@ -23,6 +25,16 @@ public class TaskMapper {
         task.setName(request.name());
         task.setDuration(request.duration());
         task.setStatus(request.status());
+
+        return task;
+    }
+
+    public TaskEntity toTaskEntity(TaskModel message) {
+        final TaskEntity task = new TaskEntity();
+
+        task.setName(message.getName());
+        task.setDuration(message.getDuration());
+        task.setStatus(TaskStatus.NEW);
 
         return task;
     }

@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @OpenAPIDefinition(
         info = @Info(
                 title = "Тестовое задание",
-                version = "1.0.0",
+                version = "0.0.1",
                 contact = @Contact(
                         name = "Екатерина Нефедова",
                         email = "chugunovaee@mail.ru"

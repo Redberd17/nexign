@@ -3,7 +3,7 @@ package ru.nefedova.nexign.common.constant;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class EndPoint {
+public class Endpoint {
 
     public static class Task {
 

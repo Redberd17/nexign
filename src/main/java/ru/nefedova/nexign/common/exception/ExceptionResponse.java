@@ -10,7 +10,9 @@ import lombok.Setter;
 public class ExceptionResponse {
 
     private int resCode;
+
     private String resName;
+
     private String userMessage;
 
 }

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Slf4j
@@ -55,46 +56,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(e, response, headers, HttpStatus.OK, request);
     }
 
-
-    @ExceptionHandler(EntryNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> notFoundException(EntryNotFoundException exception) {
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ExceptionResponse> notFoundException(NoSuchElementException exception) {
         log.error(
-                "handleEntryNotFoundException: resCode {}, userMessage: {}",
-                exception.getResCode(),
-                exception.getUserMessage()
+                "handleNoSuchElementException: resCode {}, userMessage: {}",
+                ResCode.ENTRY_NOT_FOUND,
+                exception.getMessage()
         );
         return ResponseEntity.of(Optional.of(
                 new ExceptionResponse(
-                        exception.getResCode().getCode(),
-                        exception.getResCode().name(),
-                        exception.getUserMessage()
+                        ResCode.ENTRY_NOT_FOUND.getCode(),
+                        ResCode.ENTRY_NOT_FOUND.name(),
+                        exception.getMessage()
                 )
         ));
     }
-
-//    @ExceptionHandler({ConstraintViolationException.class})
-//    public ResponseEntity<ExceptionResponse> handleConstraintViolationException(ConstraintViolationException exception) {
-//        List<Map<String, List<String>>> formErrors = new ArrayList<>();
-//        Map<String, List<String>> errors = exception.getConstraintViolations()
-//                .stream()
-//                .collect(Collectors.toMap(
-//                        (constraintViolation) -> constraintViolation.getPropertyPath()
-//                                .toString()
-//                                .split("\\.")[1],
-//                        (constraintViolation) -> Collections.singletonList(constraintViolation.getMessage())
-//                ));
-//
-//        formErrors.add(errors);
-//
-//        log.error("Ошибка валидации: {}", errors, exception);
-//
-//        return ResponseEntity.of(Optional.of(
-//                new ExceptionResponse(
-//                        ResCode.VALIDATION_ERROR.getCode(),
-//                        ResCode.VALIDATION_ERROR.name(),
-//                        "Ошибка валидации " + formErrors
-//                )));
-//    }
-
 
 }

@@ -9,8 +9,7 @@ public enum ResCode {
 
     OK(0),
     ENTRY_NOT_FOUND(1),
-    DB_ERROR(2),
-    VALIDATION_ERROR(3);
+    VALIDATION_ERROR(2);
 
     private final Integer code;
 

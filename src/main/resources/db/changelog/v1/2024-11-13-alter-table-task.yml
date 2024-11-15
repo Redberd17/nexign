@@ -24,9 +24,3 @@ databaseChangeLog:
               - column:
                   name: finish_date
                   type: TIMESTAMPTZ
-
-        - sql:
-            sql: |
-              CREATE UNIQUE INDEX uniq_name_by_statuses ON task (name)
-              WHERE status = 'NEW' or status = 'IN_PROGRESS';
-
