@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +45,13 @@ public class TaskController {
     @PostMapping(TASKS)
     public ResponseEntity<Long> createTask(@RequestBody @Valid TaskRequest request) {
         return ResponseEntity.ok(taskCompositeService.createTask(request));
+    }
+
+    @Operation(summary = "Удаление задачи")
+    @DeleteMapping(TASKS_BY_ID_PATTERN)
+    public ResponseEntity<Void> deleteTask(@PathVariable long id) {
+        taskCompositeService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
 }

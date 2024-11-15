@@ -35,4 +35,4 @@ spring:
       port: 6379
 
 worker:
-  count: 3
+  count: 5

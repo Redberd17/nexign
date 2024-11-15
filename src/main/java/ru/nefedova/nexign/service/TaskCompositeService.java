@@ -39,4 +39,8 @@ public class TaskCompositeService {
         return task.getId();
     }
 
+    public void deleteById(long id) {
+        taskService.deleteById(id);
+    }
+
 }
