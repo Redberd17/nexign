@@ -35,6 +35,14 @@ public class TaskService {
                 ));
     }
 
+    public void existsTaskByIdOrThrow(long id) {
+        if (!taskRepository.existsById(id)) {
+            throw new NoSuchElementException(
+                    localizationService.getMessage("task.notExistsById", id)
+            );
+        }
+    }
+
     public TaskEntity saveTask(TaskEntity entity) {
         return taskRepository.save(entity);
     }
@@ -50,7 +58,9 @@ public class TaskService {
         taskRepository.save(entity);
     }
 
-    public void deleteById(long taskId) {
+    public String deleteByIdOrThrow(long taskId) {
+        existsTaskByIdOrThrow(taskId);
+
         final RLock lock = redisService.getLockByTaskId(taskId);
 
         try {
@@ -58,17 +68,20 @@ public class TaskService {
                 try {
                     log.info("Задача с id {} заблокирована", taskId);
                     taskRepository.deleteById(taskId);
+                    return localizationService.getMessage("task.deleteByIdSuccess", taskId);
                 } finally {
                     lock.unlock();
                     log.info("Задача с id {} освобождена", taskId);
                 }
             } else {
                 log.info("Не удалось захватить блокировку для задачи {}", taskId);
+                return localizationService.getMessage("task.cannotDeleteById", taskId);
             }
 
         } catch (Exception e) {
-            log.info("Невозможно удалить задачу с id {}", taskId);
+            log.info(localizationService.getMessage("task.cannotDeleteById", taskId));
             Thread.currentThread().interrupt();
+            return localizationService.getMessage("task.cannotDeleteById", taskId);
         }
     }
 

@@ -5,6 +5,7 @@ import ru.nefedova.nexign.common.enumeration.TaskStatus;
 import ru.nefedova.nexign.input.kafka.model.TaskModel;
 import ru.nefedova.nexign.input.web.model.TaskRequest;
 import ru.nefedova.nexign.input.web.model.TaskResponse;
+import ru.nefedova.nexign.input.web.model.TaskShortResponse;
 import ru.nefedova.nexign.output.persistance.model.TaskEntity;
 
 import java.time.OffsetDateTime;
@@ -24,6 +25,13 @@ public class TaskMapper {
                 .finishDate(task.getFinishDate() == null
                                     ? null
                                     : OffsetDateTime.ofInstant(task.getFinishDate(), ZoneId.systemDefault()))
+                .build();
+    }
+
+    public TaskShortResponse toTaskShortResponse(TaskEntity task) {
+        return TaskShortResponse.builder()
+                .id(task.getId())
+                .status(task.getStatus())
                 .build();
     }
 

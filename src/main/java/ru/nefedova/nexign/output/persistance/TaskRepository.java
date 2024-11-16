@@ -11,4 +11,6 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
 
     List<TaskEntity> findAllByOrderByUpdateDateDesc();
 
+    boolean existsById(long id);
+
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.nefedova.nexign.input.web.model.TaskRequest;
 import ru.nefedova.nexign.input.web.model.TaskResponse;
+import ru.nefedova.nexign.input.web.model.TaskShortResponse;
 import ru.nefedova.nexign.mapper.TaskMapper;
 import ru.nefedova.nexign.output.persistance.model.TaskEntity;
 
@@ -31,6 +32,12 @@ public class TaskCompositeService {
         return taskMapper.toTaskResponse(task);
     }
 
+    public TaskShortResponse getTaskStatusById(long id) {
+        final TaskEntity task = taskService.getTaskByIdOrThrow(id);
+
+        return taskMapper.toTaskShortResponse(task);
+    }
+
     public Long createTask(TaskRequest request) {
         final TaskEntity task = taskService.saveTask(
                 taskMapper.toTaskEntity(request)
@@ -39,8 +46,8 @@ public class TaskCompositeService {
         return task.getId();
     }
 
-    public void deleteById(long id) {
-        taskService.deleteById(id);
+    public String deleteById(long id) {
+        return taskService.deleteByIdOrThrow(id);
     }
 
 }

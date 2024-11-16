@@ -7,4 +7,6 @@ public class Constant {
 
     public static final String REDIS_LOCK_NAME = "lock-task-%s";
 
+    public static final String KAFKA_TOPIC_TASKS = "tasks";
+
 }

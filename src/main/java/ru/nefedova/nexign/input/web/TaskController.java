@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.nefedova.nexign.input.web.model.TaskRequest;
 import ru.nefedova.nexign.input.web.model.TaskResponse;
+import ru.nefedova.nexign.input.web.model.TaskShortResponse;
 import ru.nefedova.nexign.service.TaskCompositeService;
 
 import java.util.List;
 
 import static ru.nefedova.nexign.common.constant.Endpoint.Task.TASKS;
 import static ru.nefedova.nexign.common.constant.Endpoint.Task.TASKS_BY_ID_PATTERN;
+import static ru.nefedova.nexign.common.constant.Endpoint.Task.TASKS_STATUS_BY_ID;
 
 @Validated
 @RestController
@@ -41,6 +43,12 @@ public class TaskController {
         return ResponseEntity.ok(taskCompositeService.getTaskById(id));
     }
 
+    @Operation(summary = "Получение статуса задачи по id")
+    @GetMapping(TASKS_STATUS_BY_ID)
+    public ResponseEntity<TaskShortResponse> getTaskStatusById(@PathVariable long id) {
+        return ResponseEntity.ok(taskCompositeService.getTaskStatusById(id));
+    }
+
     @Operation(summary = "Создание задачи")
     @PostMapping(TASKS)
     public ResponseEntity<Long> createTask(@RequestBody @Valid TaskRequest request) {
@@ -49,9 +57,8 @@ public class TaskController {
 
     @Operation(summary = "Удаление задачи")
     @DeleteMapping(TASKS_BY_ID_PATTERN)
-    public ResponseEntity<Void> deleteTask(@PathVariable long id) {
-        taskCompositeService.deleteById(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> deleteTask(@PathVariable long id) {
+        return ResponseEntity.ok(taskCompositeService.deleteById(id));
     }
 
 }
