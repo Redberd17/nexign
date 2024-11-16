@@ -1,6 +1,6 @@
 # nexign
 
-How to run application:
+How to run the application:
 
 1. Go to the directory with compose.yml file
 2. Run "docker-compose up"
