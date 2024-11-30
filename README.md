@@ -24,3 +24,5 @@ Main test cases:
 7. Instances for application
    <img width="1061" alt="Снимок экрана 2024-11-17 в 00 16 20" src="https://github.com/user-attachments/assets/3f334339-3819-44d3-b062-78972fa7e737">
 8. Try to delete task by id if it's in progress
+   <img width="1074" alt="Снимок экрана 2024-11-17 в 00 32 31" src="https://github.com/user-attachments/assets/0ad6dc4a-4806-43fc-aebd-9251f03677de">
+
