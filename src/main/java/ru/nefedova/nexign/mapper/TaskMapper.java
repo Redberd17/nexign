@@ -1,58 +1,38 @@
 package ru.nefedova.nexign.mapper;
 
-import org.springframework.stereotype.Component;
-import ru.nefedova.nexign.common.enumeration.TaskStatus;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.Named;
 import ru.nefedova.nexign.input.kafka.model.TaskModel;
 import ru.nefedova.nexign.input.web.model.TaskRequest;
 import ru.nefedova.nexign.input.web.model.TaskResponse;
 import ru.nefedova.nexign.input.web.model.TaskShortResponse;
 import ru.nefedova.nexign.output.persistance.model.TaskEntity;
 
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 
-@Component
-public class TaskMapper {
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+public interface TaskMapper {
 
-    public TaskResponse toTaskResponse(TaskEntity task) {
-        return TaskResponse.builder()
-                .id(task.getId())
-                .name(task.getName())
-                .duration(task.getDuration())
-                .status(task.getStatus())
-                .createDate(OffsetDateTime.ofInstant(task.getCreateDate(), ZoneId.systemDefault()))
-                .updateDate(OffsetDateTime.ofInstant(task.getUpdateDate(), ZoneId.systemDefault()))
-                .finishDate(task.getFinishDate() == null
-                                    ? null
-                                    : OffsetDateTime.ofInstant(task.getFinishDate(), ZoneId.systemDefault()))
-                .build();
-    }
+    @Mapping(source = "createDate", target = "createDate", qualifiedByName = "instanceToOffset")
+    @Mapping(source = "updateDate", target = "updateDate", qualifiedByName = "instanceToOffset")
+    @Mapping(source = "finishDate", target = "finishDate", qualifiedByName = "instanceToOffset")
+    TaskResponse toTaskResponse(TaskEntity task);
 
-    public TaskShortResponse toTaskShortResponse(TaskEntity task) {
-        return TaskShortResponse.builder()
-                .id(task.getId())
-                .status(task.getStatus())
-                .build();
-    }
+    TaskShortResponse toTaskShortResponse(TaskEntity task);
 
-    public TaskEntity toTaskEntity(TaskRequest request) {
-        final TaskEntity task = new TaskEntity();
+    TaskEntity toTaskEntity(TaskRequest request);
 
-        task.setName(request.name());
-        task.setDuration(request.duration());
-        task.setStatus(request.status());
+    TaskEntity toTaskEntity(TaskModel message);
 
-        return task;
-    }
-
-    public TaskEntity toTaskEntity(TaskModel message) {
-        final TaskEntity task = new TaskEntity();
-
-        task.setName(message.getName());
-        task.setDuration(message.getDuration());
-        task.setStatus(TaskStatus.NEW);
-
-        return task;
+    @Named("instanceToOffset")
+    static OffsetDateTime instanceToOffset(Instant instant) {
+        return instant == null
+                ? null
+                : OffsetDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
 }
